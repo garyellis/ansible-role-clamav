@@ -1,0 +1,9 @@
+---
+
+- hosts: all
+  user: vagrant
+  become: true
+  vars:
+    st_clamav_enable_cron: true
+  roles:
+  - ../..

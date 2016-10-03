@@ -1,0 +1,8 @@
+---
+boxes:
+- box: ubuntu/trusty64
+  hostname: clamav
+  ip: 192.168.128.206
+  cpus: 2
+  memory: 2048
+  ansible_playbook: tests/test.yml

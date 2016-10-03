@@ -1,0 +1,21 @@
+---
+- name: Cron job - Daily clamav sigs db refresh
+  cron: name="Daily Virus DB Update"
+        hour="{{clamav_db_refresh_hr}}"
+        minute="{{clamav_db_refresh_min}}"
+        job="/usr/bin/freshclam"
+        state=present
+
+- name: Cron job - Daily unofficial sigs db refresh
+  cron: name="Daily Unofficial DB Update"
+        hour="{{clamav_db_unofficial_refresh_hr}}"
+        minute="{{clamav_db_unofficial_refresh_min}}"
+        job="/usr/sbin/clamav-unofficial-sigs 2>&1 | /usr/bin/logger -p local0.info -t clamav-unofficial-sigs"
+        state=present
+
+- name: Cron job - Daily clamav scan
+  cron: name="Daily Virus Scan"
+        hour="{{clamav_scan_hr}}"
+        minute="{{clamav_scan_min}}"
+        job="nice -n {{clamscan_nice}} /usr/bin/clamscan -r /  --detect-pua --exclude-dir=/sys/ --exclude-dir=/proc/ --exclude-dir=/dev/ --infected 2>&1 | /usr/bin/logger -p local0.info -t clamd"
+        state=present
